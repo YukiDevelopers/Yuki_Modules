@@ -47,24 +47,24 @@ def register_module(app: Client):
             message.edit_text("❌Ответьте на сообщение пользователя, которого хотите замутить!")
 
     @app.on_message(filters.me & filters.command("unmute", prefixes=prefix_userbot))
-        def unmute_command(client, message):
-            if message.reply_to_message:
-                user_id = message.reply_to_message.from_user.id
-                try:
-                    client.restrict_chat_member(
-                        chat_id=message.chat.id,
-                        user_id=user_id,
-                        permissions=ChatPermissions(
-                            can_send_messages=True,
-                            can_send_media_messages=True,
-                            can_send_other_messages=True,
-                            can_invite_users=True,
-                            can_add_web_page_previews=True,
-                            can_send_polls=True,
-                        )
+    def unmute_command(client, message):
+        if message.reply_to_message:
+            user_id = message.reply_to_message.from_user.id
+            try:
+                client.restrict_chat_member(
+                    chat_id=message.chat.id,
+                    user_id=user_id,
+                    permissions=ChatPermissions(
+                        can_send_messages=True,
+                        can_send_media_messages=True,
+                        can_send_other_messages=True,
+                        can_invite_users=True,
+                        can_add_web_page_previews=True,
+                        can_send_polls=True,
                     )
-                    message.edit_text("✅Пользователь размучен!")
-                except pyrogram.errors.Forbidden:
-                    message.edit_text("❌У вас нет прав на размучение пользователей в этом чате!")
-            else:
-                message.edit_text("❌Ответьте на сообщение пользователя, которого хотите размутить!")
+                )
+                message.edit_text("✅Пользователь размучен!")
+            except pyrogram.errors.Forbidden:
+                message.edit_text("❌У вас нет прав на размучение пользователей в этом чате!")
+        else:
+            message.edit_text("❌Ответьте на сообщение пользователя, которого хотите размутить!")
